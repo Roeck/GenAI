@@ -10,6 +10,7 @@ import { ChatCompletionRequestMessage } from "openai";
 import { formSchema } from "./constants";
 
 import { Heading } from "@/components/heading";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -24,6 +25,8 @@ const ConversationPage = () => {
       prompt: "",
     },
   });
+
+  const isLoading = form.formState.isSubmitting;
 
   return (
     <div>
@@ -55,14 +58,22 @@ const ConversationPage = () => {
                 name="prompt"
                 render={({ field }) => (
                   <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">Input</FormControl>
+                    <FormControl className="m-0 p-0">
+                      {" "}
+                      <Input
+                        className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
+                        disabled={isLoading}
+                        placeholder="How do I calculate the radius of a circle?"
+                        {...field}
+                      />
+                    </FormControl>
                   </FormItem>
                 )}
               />
               <Button
                 className="col-span-12 lg:col-span-2 w-full"
                 type="submit"
-                //   disabled={isLoading}
+                disabled={isLoading}
                 size="icon"
               >
                 Generate
