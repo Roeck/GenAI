@@ -12,10 +12,12 @@ import { ChatCompletionRequestMessage } from "openai";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { UserAvatar } from "@/components/user-avatar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { Empty } from "@/components/ui/empty";
+import { Loader } from "@/components/loader";
 // import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
@@ -115,8 +117,7 @@ const ConversationPage = () => {
         <div className="space-y-4 mt-4">
           {isLoading && (
             <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
-              {/* <Loader /> */}
-              Loader
+              <Loader />
             </div>
           )}
           {messages.length === 0 && !isLoading && (
@@ -133,7 +134,7 @@ const ConversationPage = () => {
                     : "bg-muted"
                 )}
               >
-                Avatars
+                <UserAvatar />
                 <p className="text-sm">{message.content}</p>
               </div>
             ))}
