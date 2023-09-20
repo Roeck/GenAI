@@ -44,7 +44,7 @@ export const FreeCounter = ({
           </div>
           <Button
             onClick={proModal.onOpen}
-            // variant="premium"
+            variant="premium"
             className="w-full"
           >
             Upgrade
