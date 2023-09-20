@@ -5,6 +5,14 @@ import { useState } from "react";
 import { Check, Zap } from "lucide-react";
 import { toast } from "react-hot-toast";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useProModal } from "@/hooks/use-pro-modal";
 import { tools } from "@/constants";
@@ -29,21 +37,44 @@ export const ProModal = () => {
   };
 
   return (
-    <>
-      <div className="flex items-center gap-x-2 font-bold text-xl">
-        Upgrade to GenAI
-      </div>
-
-      <Button
-        disabled={loading}
-        onClick={onSubscribe}
-        size="lg"
-        variant="premium"
-        className="w-full"
-      >
-        Upgrade
-        <Zap className="w-4 h-4 ml-2 fill-white" />
-      </Button>
-    </>
+    <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2">
+            <div className="flex items-center gap-x-2 font-bold text-xl">
+              Upgrade to GenAI Pro
+            </div>
+          </DialogTitle>
+          <DialogDescription className="text-center pt-2 space-y-2 text-zinc-900 font-medium">
+            {tools.map((tool) => (
+              <Card
+                key={tool.href}
+                className="p-3 border-black/5 flex items-center justify-between"
+              >
+                <div className="flex items-center gap-x-4">
+                  <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
+                    <tool.icon className={cn("w-6 h-6", tool.color)} />
+                  </div>
+                  <div className="font-semibold text-sm">{tool.label}</div>
+                </div>
+                <Check className="text-primary w-5 h-5" />
+              </Card>
+            ))}
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button
+            disabled={loading}
+            onClick={onSubscribe}
+            size="lg"
+            variant="premium"
+            className="w-full"
+          >
+            Upgrade
+            <Zap className="w-4 h-4 ml-2 fill-white" />
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
