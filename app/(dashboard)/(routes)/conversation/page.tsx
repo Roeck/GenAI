@@ -9,22 +9,23 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
 
+import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { UserAvatar } from "@/components/user-avatar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import { Empty } from "@/components/ui/empty";
 import { Loader } from "@/components/loader";
-// import { useProModal } from "@/hooks/use-pro-modal";
+import { UserAvatar } from "@/components/user-avatar";
+import { Empty } from "@/components/ui/empty";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constants";
 
 const ConversationPage = () => {
   const router = useRouter();
-  //   const proModal = useProModal();
+  const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -52,7 +53,7 @@ const ConversationPage = () => {
       form.reset();
     } catch (error: any) {
       if (error?.response?.status === 403) {
-        //  proModal.onOpen();
+        proModal.onOpen();
       } else {
         toast.error("Something went wrong.");
       }
@@ -134,7 +135,7 @@ const ConversationPage = () => {
                     : "bg-muted"
                 )}
               >
-                <UserAvatar />
+                {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
                 <p className="text-sm">{message.content}</p>
               </div>
             ))}
